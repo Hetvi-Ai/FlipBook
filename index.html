@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Machine Learning — Flipbook</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="topbar">
+        <div class="topbar-title">📖 Machine Learning</div>
+        <div class="page-ind" id="pInd">1 / 6</div>
+    </div>
+
+    <div class="scene">
+        <div class="book" id="book">
+            <div class="book-shadow"></div>
+            <div class="spine"></div>
+            <div class="half left-half" id="leftHalf">
+                <div class="face front" id="lFront"></div>
+                <div class="face back" id="lBack"></div>
+            </div>
+            <div class="half right-half" id="rightHalf">
+                <div class="face front" id="rFront"></div>
+                <div class="face back" id="rBack"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hint" id="hint">
+        <span class="hint-arrow">👆</span> Tap right side to go forward · Tap left side to go back
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="prevBtn">◀ Prev</button>
+        <div class="dots" id="dots"></div>
+        <button class="btn" id="nextBtn">Next ▶</button>
+    </div>
+
+    <script src="css/pages/content.js"></script>
+    <script src="css/pages/js/flipbook.js"></script>
+</body>
+
+</html>
