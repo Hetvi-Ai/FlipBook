@@ -3,45 +3,48 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Machine Learning — Flipbook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PDF Flipbook Generator</title>
+
     <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 
 <body>
 
-    <div class="topbar">
-        <div class="topbar-title">📖 Machine Learning</div>
-        <div class="page-ind" id="pInd">1 / 6</div>
+    <header class="topbar">
+        <h2>PDF Flipbook Generator</h2>
+        <span id="pageInfo">No PDF Loaded</span>
+    </header>
+
+    <section class="upload-section">
+
+        <input type="file" id="pdfUpload" accept=".pdf">
+
+        <button id="downloadBtn">
+            Download Flipbook ZIP
+        </button>
+
+    </section>
+
+    <div id="loader" class="loader-container">
+
+        <div class="spinner"></div>
+
+        <p>Processing PDF...</p>
+
     </div>
 
-    <div class="scene">
-        <div class="book" id="book">
-            <div class="book-shadow"></div>
-            <div class="spine"></div>
-            <div class="half left-half" id="leftHalf">
-                <div class="face front" id="lFront"></div>
-                <div class="face back" id="lBack"></div>
-            </div>
-            <div class="half right-half" id="rightHalf">
-                <div class="face front" id="rFront"></div>
-                <div class="face back" id="rBack"></div>
-            </div>
-        </div>
-    </div>
+    <div id="flipbook"></div>
 
-    <div class="hint" id="hint">
-        <span class="hint-arrow">👆</span> Tap right side to go forward · Tap left side to go back
-    </div>
+    <script type="module" src="js/app.js"></script>
 
-    <div class="controls">
-        <button class="btn" id="prevBtn">◀ Prev</button>
-        <div class="dots" id="dots"></div>
-        <button class="btn" id="nextBtn">Next ▶</button>
-    </div>
-
-    <script src="css/pages/content.js"></script>
-    <script src="css/pages/js/flipbook.js"></script>
 </body>
 
 </html>
