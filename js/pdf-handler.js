@@ -5,6 +5,8 @@ export async function loadPDF(file) {
 
         console.log("PDF Selected:", file);
 
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'js/pdf.worker.min.js';
+
         const pdfUrl = URL.createObjectURL(file);
 
         const pdf =

@@ -1,15 +1,11 @@
-
 export async function downloadFlipbook(images) {
-
     const zip = new JSZip();
 
-    // Create folders
     const pagesFolder = zip.folder("pages");
     const jsFolder = zip.folder("js");
 
     // Save images
     images.forEach((img, index) => {
-
         const base64Data = img.image.split(",")[1];
 
         pagesFolder.file(
@@ -19,7 +15,18 @@ export async function downloadFlipbook(images) {
         );
     });
 
-    // Standalone HTML
+    // Download PageFlip library and include in ZIP
+    const response = await fetch(
+        "./js/page-flip.browser.min.js"
+    );
+
+    const pageFlipLibrary = await response.text();
+
+    jsFolder.file(
+        "page-flip.browser.min.js",
+        pageFlipLibrary
+    );
+
     const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -27,8 +34,6 @@ export async function downloadFlipbook(images) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Offline Flipbook</title>
-
-<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
 body{
@@ -58,22 +63,19 @@ body{
 </head>
 
 <body>
-
 <div id="flipbook"></div>
 
+<script src="./js/page-flip.browser.min.js"></script>
 <script src="./js/flipbook.js"></script>
-
 </body>
 </html>
 `;
 
     zip.file("index.html", htmlContent);
 
-    // Standalone flipbook JS
     let pageList = "";
 
     images.forEach((img, index) => {
-
         pageList += `
         {
             src:"./pages/page${index + 1}.png"
@@ -86,69 +88,43 @@ const pages = [
 ${pageList}
 ];
 
-const container =
-document.getElementById("flipbook");
-
+const container = document.getElementById("flipbook");
 const htmlPages = [];
 
 pages.forEach(item => {
-
-    const page =
-    document.createElement("div");
-
+    const page = document.createElement("div");
     page.className = "page";
 
-    const image =
-    document.createElement("img");
-
+    const image = document.createElement("img");
     image.src = item.src;
 
     page.appendChild(image);
-
     container.appendChild(page);
-
     htmlPages.push(page);
 });
 
-const flipbook =
-new St.PageFlip(
-    container,
-    {
-        width:500,
-        height:700,
-        size:"stretch",
-        showCover:true,
-        mobileScrollSupport:true
-    }
-);
+const flipbook = new St.PageFlip(container, {
+    width:500,
+    height:700,
+    size:"stretch",
+    showCover:true,
+    mobileScrollSupport:true
+});
 
 flipbook.loadFromHTML(htmlPages);
 `;
 
-    jsFolder.file(
-        "flipbook.js",
-        flipbookJS
-    );
+    jsFolder.file("flipbook.js", flipbookJS);
 
-    // Generate ZIP
-    const blob =
-        await zip.generateAsync({
-            type: "blob"
-        });
+    const blob = await zip.generateAsync({
+        type: "blob"
+    });
 
-    const link =
-        document.createElement("a");
-
-    link.href =
-        URL.createObjectURL(blob);
-
-    link.download =
-        "OfflineFlipbook.zip";
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "OfflineFlipbook.zip";
 
     document.body.appendChild(link);
-
     link.click();
-
     document.body.removeChild(link);
 }
-
